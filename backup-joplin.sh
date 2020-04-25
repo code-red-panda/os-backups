@@ -1,66 +1,38 @@
 #!/bin/bash
 
 ########## Crontab ##########
-### # MBP13 Backup
-### 8 14 * * * $HOME/git/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
+### # Joplin Backup
+### 2 * * * * $HOME/git/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
 ############################
 
-BACKUP=mbp13
-BACKUP_NAME=$(date +$BACKUP-%Y-%m-%d_%H-%M-CT)
+BACKUP=joplin
+BACKUP_NAME=$(date +$BACKUP-%Y-%m-%d-%H-%M-CT)
 BACKUP_PATH=$HOME/Desktop
-BACKUP_SRC=$HOME/
 BACKUP_TRG=$BACKUP_PATH/$BACKUP_NAME
 DROPBOX=$HOME/Dropbox/Backups/$BACKUP
 EMAIL=jake@coderedpanda.cloud
-EXCLUDE=$BACKUP_TRG/exclude-list.txt
 RETENTION_DAYS=7
 LOG_DIR=/var/log/coderedpanda
 LOG_DETAIL=$LOG_DIR/backup-$BACKUP-details.log
 
-source backup-logger.sh
+source backup-logger.sh 
 
 info "start"
 
 TASK_NAME="Create backup directories"
-COMMAND="/bin/mkdir -p $BACKUP_TRG/ssh $BACKUP_TRG/ssh/config.d"
+COMMAND="/bin/mkdir -p $BACKUP_TRG"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
-TASK_NAME="Create exclude list"
-COMMAND="/bin/cat <<EOF >$BACKUP_TRG/exclude-list.txt"
-info "task"
-/bin/cat <<EOF > $BACKUP_TRG/exclude-list.txt
-# Hidden files and directories
-.*
-
-# Mac standard directories
-Applications
-Desktop
-Downloads
-iTunes
-Library
-Movies
-Music
-Pictures
-Public
-
-# My custom directories
-Dropbox
-Git
-VirtualBox VMs
-vm
-EOF
-result
-
-TASK_NAME="Begin rsync"
-COMMAND="/usr/bin/rsync -avzP --exclude-from=$EXCLUDE $BACKUP_SRC $BACKUP_TRG"
+TASK_NAME="Synchronize Joplin"
+COMMAND="/usr/local/bin/joplin sync"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
-TASK_NAME="Copy SSH configs"
-COMMAND="/usr/bin/scp -r $HOME/.ssh/config $HOME/.ssh/ms_config $HOME/.ssh/config.d $BACKUP_TRG/ssh"
+TASK_NAME="Export raw backup"
+COMMAND="/usr/local/bin/joplin --log-level debug export --format raw $BACKUP_TRG"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
