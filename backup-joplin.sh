@@ -2,20 +2,21 @@
 
 ########## Crontab ##########
 ### # Joplin Backup
-### 2 * * * * $HOME/git/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
+### 2 * * * * PATH=$PATH:/usr/local/bin ; $HOME/git/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
 ############################
 
 BACKUP=joplin
 BACKUP_NAME=$(date +$BACKUP-%Y-%m-%d-%H-%M-CT)
 BACKUP_PATH=$HOME/Desktop
 BACKUP_TRG=$BACKUP_PATH/$BACKUP_NAME
+BIN=$HOME/git/bin
 DROPBOX=$HOME/Dropbox/Backups/$BACKUP
 EMAIL=jake@coderedpanda.cloud
-RETENTION_DAYS=7
 LOG_DIR=/var/log/coderedpanda
 LOG_DETAIL=$LOG_DIR/backup-$BACKUP-details.log
+RETENTION_DAYS=7
 
-source backup-logger.sh 
+source $BIN/backup-logger.sh
 
 info "start"
 

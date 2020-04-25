@@ -10,14 +10,15 @@ BACKUP_NAME=$(date +$BACKUP-%Y-%m-%d_%H-%M-CT)
 BACKUP_PATH=$HOME/Desktop
 BACKUP_SRC=$HOME/
 BACKUP_TRG=$BACKUP_PATH/$BACKUP_NAME
+BIN=$HOME/git/bin
 DROPBOX=$HOME/Dropbox/Backups/$BACKUP
 EMAIL=jake@coderedpanda.cloud
 EXCLUDE=$BACKUP_TRG/exclude-list.txt
-RETENTION_DAYS=7
 LOG_DIR=/var/log/coderedpanda
 LOG_DETAIL=$LOG_DIR/backup-$BACKUP-details.log
+RETENTION_DAYS=7
 
-source backup-logger.sh
+source $BIN/backup-logger.sh
 
 info "start"
 
