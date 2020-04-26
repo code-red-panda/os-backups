@@ -2,7 +2,7 @@
 
 ########## Crontab ##########
 ### # MBP13 Backup
-### 8 14 * * * $HOME/git/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
+### 12 15 * * * $HOME/git/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
 ############################
 
 BACKUP=mbp13
@@ -23,7 +23,7 @@ source $BIN/backup-logger.sh
 info "start"
 
 TASK_NAME="Create backup directories"
-COMMAND="/bin/mkdir -p $BACKUP_TRG/ssh $BACKUP_TRG/ssh/config.d"
+COMMAND="/bin/mkdir -p $BACKUP_TRG/ssh $BACKUP_TRG/ssh/config.d $BACKUP_TRG/config"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
@@ -62,6 +62,12 @@ result
 
 TASK_NAME="Copy SSH configs"
 COMMAND="/usr/bin/scp -r $HOME/.ssh/config $HOME/.ssh/ms_config $HOME/.ssh/config.d $BACKUP_TRG/ssh"
+info "task"
+$COMMAND >> $LOG_DETAIL 2>&1
+result
+
+TASK_NAME="Copy .config"
+COMMAND="/usr/bin/scp -r $HOME/.config/ $BACKUP_TRG/config"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
