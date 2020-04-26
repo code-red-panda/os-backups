@@ -1,10 +1,5 @@
 #!/bin/bash
 
-########## Crontab ##########
-### # Dropbox Backup
-### 22 */6 * * * $HOME/git/bin/backup-dropbox.sh >> /var/log/coderedpanda/backup-dropbox.log 2>&1
-############################
-
 BACKUP=dropbox
 BACKUP_SRC=Dropbox:/
 BACKUP_TRG=Pi3:/mnt/md0/Dropbox
