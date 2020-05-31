@@ -1,10 +1,15 @@
+# /etc/cron.d/coderedpanda
+
 MAILTO="jake@coderedpanda.com"
 
 # Joplin Backup
-2 * * * * PATH=$PATH:/usr/local/bin ; $HOME/git/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
+2 * * * * jake PATH=$PATH:/usr/local/bin ; $HOME/git/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
 
 # MBP13 Backup
-12 15 * * * $HOME/git/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
+12 15 * * * jake $HOME/git/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
 
 # Dropbox Backup
-22 */6 * * * $HOME/git/bin/backup-dropbox.sh >> /var/log/coderedpanda/backup-dropbox.log 2>&1
+22 */6 * * * jake $HOME/git/bin/backup-dropbox.sh >> /var/log/coderedpanda/backup-dropbox.log 2>&1
+
+# Alfred Snippets Sync
+32 * * * * jake $HOME/git/bin/sync-alfred-snippets.sh >> /var/log/coderedpanda/sync-alfred-snippets.log 2>&1
