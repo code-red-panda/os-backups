@@ -9,6 +9,8 @@ LOG_DETAIL=$LOG_DIR/sync-$SYNC-details.log
 
 source $BIN/backup-logger.sh
 
+mkdir -p $SYNC_TRG
+
 info "start"
 
 TASK_NAME="Run rclone to sync Alfred snippets"
