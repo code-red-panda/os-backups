@@ -28,7 +28,18 @@ result () {
   fi
 }
 
+if test ! -d $LOG_DIR
+then
+    echo "ERROR: $LOG_DIR does not exist. Exiting."
+    exit 1
+fi
+
 if test ! -f $LOG_DETAIL
 then
     touch $LOG_DETAIL
+    if test ! $? = 0
+    then
+        echo "ERROR: Could not create ${LOG_DETAIL} - check permissions of ${LOG_DIR}"
+	exit 1
+    fi	
 fi
