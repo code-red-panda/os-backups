@@ -1,9 +1,9 @@
 #!/bin/bash
 
 SYNC=alfred-snippets
-SYNC_SRC=Dropbox:/Alfred/Alfred.alfredpreferences/snippets/
-SYNC_TRG=$HOME/Snippets/
-BIN=/usr/local/coderedpanda/
+SYNC_SRC=Dropbox:/Alfred/Alfred.alfredpreferences/snippets
+SYNC_TRG=$HOME/Snippets
+BIN=/usr/local/coderedpanda/bin
 LOG_DIR=/var/log/coderedpanda
 LOG_DETAIL=$LOG_DIR/sync-$SYNC-details.log
 
