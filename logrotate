@@ -1,0 +1,18 @@
+/var/log/coderedpanda/backup-*.log {
+    daily
+    rotate 31
+    create 0644 jake jake
+    dateext
+    compress
+    missingok
+    notifempty
+}
+
+/var/log/coderedpanda/backup-*-details.log.*CT {
+    daily
+    rotate 31
+    create 0644 jake jake
+    compress
+    missingok
+    notifempty
+}

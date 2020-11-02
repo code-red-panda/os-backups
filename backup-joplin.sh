@@ -1,14 +1,15 @@
 #!/bin/bash
 
 BACKUP=joplin
-BACKUP_NAME=$(date +$BACKUP-%Y-%m-%d-%H-%M-CT)
-BACKUP_PATH=$HOME/Desktop
+TS=$(date +%Y%m%d-%H%MCT)
+BACKUP_NAME=$BACKUP-$TS
+BACKUP_PATH=/tmp
 BACKUP_TRG=$BACKUP_PATH/$BACKUP_NAME
-BIN=$HOME/git/bin
+BIN=/usr/local/coderedpanda/bin
 DROPBOX=Dropbox:/Backups/$BACKUP
-EMAIL=jake@coderedpanda.cloud
+EMAIL=jake@coderedpanda.com
 LOG_DIR=/var/log/coderedpanda
-LOG_DETAIL=$LOG_DIR/backup-$BACKUP-details.log
+LOG_DETAIL=$LOG_DIR/backup-$BACKUP-details.log.$TS
 RETENTION=7d
 
 source $BIN/backup-logger.sh
@@ -40,19 +41,19 @@ $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Encrypt backup"
-COMMAND="/usr/local/bin/gpg --output $BACKUP_TRG.tar.gz.gpg --encrypt --recipient $EMAIL $BACKUP_TRG.tar.gz"
+COMMAND="/usr/bin/gpg --output $BACKUP_TRG.tar.gz.gpg --encrypt --recipient $EMAIL $BACKUP_TRG.tar.gz"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Copy backup to Dropbox"
-COMMAND="/usr/local/bin/rclone copy $BACKUP_TRG.tar.gz.gpg $DROPBOX"
+COMMAND="/usr/bin/rclone copy $BACKUP_TRG.tar.gz.gpg $DROPBOX"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Purge old Dropbox backups"
-COMMAND="/usr/local/bin/rclone delete --min-age=$RETENTION $DROPBOX"
+COMMAND="/usr/bin/rclone delete --min-age=$RETENTION $DROPBOX"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result

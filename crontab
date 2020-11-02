@@ -2,14 +2,23 @@
 
 # Not working by default MAILTO="jake@coderedpanda.com"
 
-# Joplin Backup
-2 * * * * jake PATH=$PATH:/usr/local/bin ; /usr/local/coderedpanda/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
+# Backup: Joplin
+#2 * * * * jake PATH=$PATH:/usr/local/bin ; /usr/local/coderedpanda/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
 
-# MBP13 Backup
-12 15 * * * jake /usr/local/coderedpanda/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
+# Backup: MBP13
+#12 */3 * * * jake /usr/local/coderedpanda/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
 
-# Dropbox Backup
-22 */6 * * * jake /usr/local/coderedpanda/bin/backup-dropbox.sh >> /var/log/coderedpanda/backup-dropbox.log 2>&1
+# Backup: XPS13
+#12 */3 * * * jake /usr/local/coderedpanda/bin/backup-xps13.sh >> /var/log/coderedpanda/backup-xps13.log 2>&1
 
-# Alfred Snippets Sync
-32 * * * * jake /usr/local/coderedpanda/bin/sync-alfred-snippets.sh >> /var/log/coderedpanda/sync-alfred-snippets.log 2>&1
+# Backup: Dropbox
+#22 */6 * * * jake /usr/local/coderedpanda/bin/backup-dropbox.sh >> /var/log/coderedpanda/backup-dropbox.log 2>&1
+
+# Sync: Alfred Snippets To Linux
+#32 * * * * jake /usr/local/coderedpanda/bin/sync-alfred-snippets.sh >> /var/log/coderedpanda/sync-alfred-snippets.log 2>&1
+
+# Compress: Details Logs
+# can this go away? 42 * * * * jake /usr/bin/gzip /var/log/coderedpanda/backup-*-details.log.*CT >> /var/log/coderedpanda/compress-details.log 2>&1
+
+# Rotate: Logs
+#52 * * * * jake /usr/sbin/logrotate -s /var/log/coderedpanda/logrotate.log /etc/logrotate.d/coderedpanda

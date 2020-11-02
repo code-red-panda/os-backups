@@ -1,11 +1,12 @@
 #!/bin/bash
 
 SYNC=alfred-snippets
+TS=$(date +%Y%m%d-%H%MCT)
 SYNC_SRC=Dropbox:/Alfred/Alfred.alfredpreferences/snippets
 SYNC_TRG=$HOME/Snippets
 BIN=/usr/local/coderedpanda/bin
 LOG_DIR=/var/log/coderedpanda
-LOG_DETAIL=$LOG_DIR/sync-$SYNC-details.log
+LOG_DETAIL=$LOG_DIR/sync-$SYNC-details.log.$TS
 
 source $BIN/backup-logger.sh
 

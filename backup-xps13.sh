@@ -1,9 +1,11 @@
 #!/bin/bash
 
-BACKUP=mbp13
+### move os-backups into ansible-crp!!!
+
+BACKUP=xps13
 TS=$(date +%Y%m%d-%H%MCT)
 BACKUP_NAME=$BACKUP-$TS
-BACKUP_PATH=$HOME/Desktop
+BACKUP_PATH=/tmp
 BACKUP_SRC=$HOME/
 BACKUP_TRG=$BACKUP_PATH/$BACKUP_NAME
 BIN=/usr/local/coderedpanda/bin
@@ -19,7 +21,7 @@ source $BIN/backup-logger.sh
 info "start"
 
 TASK_NAME="Create backup directories"
-COMMAND="/bin/mkdir -p $BACKUP_TRG/ssh $BACKUP_TRG/ssh/config.d $BACKUP_TRG/config"
+COMMAND="/bin/mkdir -p $BACKUP_TRG/ssh/config.d"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
@@ -31,22 +33,20 @@ info "task"
 # Hidden files and directories
 .*
 
-# Mac standard directories
-Applications
+# Linux standard directories
 Desktop
 Downloads
-iTunes
-Library
-Movies
 Music
 Pictures
 Public
+Videos
 
 # My custom directories
 Dropbox
-git
+Git
+Snippets
+Vagrant
 VirtualBox VMs
-vm
 EOF
 result
 
@@ -57,13 +57,7 @@ $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Copy SSH configs"
-COMMAND="/usr/bin/scp -r $HOME/.ssh/config $HOME/.ssh/ms_config $HOME/.ssh/config.d $BACKUP_TRG/ssh"
-info "task"
-$COMMAND >> $LOG_DETAIL 2>&1
-result
-
-TASK_NAME="Copy .config"
-COMMAND="/usr/bin/scp -r $HOME/.config/ $BACKUP_TRG/config"
+COMMAND="/usr/bin/scp -r $HOME/.ssh/config $HOME/.ssh/config.d $BACKUP_TRG/ssh"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
@@ -75,19 +69,19 @@ $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Encrypt backup"
-COMMAND="/usr/local/bin/gpg --output $BACKUP_TRG.tar.gz.gpg --encrypt --recipient $EMAIL $BACKUP_TRG.tar.gz"
+COMMAND="/usr/bin/gpg --output $BACKUP_TRG.tar.gz.gpg --encrypt --recipient $EMAIL $BACKUP_TRG.tar.gz"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Copy backup to Dropbox"
-COMMAND="/usr/local/bin/rclone copy $BACKUP_TRG.tar.gz.gpg $DROPBOX"
+COMMAND="/usr/bin/rclone copy $BACKUP_TRG.tar.gz.gpg $DROPBOX"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Purge old Dropbox backups"
-COMMAND="/usr/local/bin/rclone delete --min-age=$RETENTION $DROPBOX"
+COMMAND="/usr/bin/rclone delete --min-age=$RETENTION $DROPBOX"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
