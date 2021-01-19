@@ -29,3 +29,13 @@ Copy the logrotate config into place (then edit as needed)
 ```
 cp logrotate /etc/logrotate.d/coderedpanda
 ```
+Or for mac
+```
+brew install logrotate
+brew services start logrotate
+sudo mkdir /etc/logrotate.d/
+sudo cp logrotate /etc/logrotate.d/coderedpanda
+- change group to staff
+update cron path to /usr/local/sbin/logrotate
+```
+
