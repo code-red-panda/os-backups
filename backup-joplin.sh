@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+
 BACKUP=joplin
 TS=$(date +%Y%m%d-%H%MCT)
 BACKUP_NAME=$BACKUP-$TS
@@ -41,19 +43,19 @@ $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Encrypt backup"
-COMMAND="/usr/bin/gpg --output $BACKUP_TRG.tar.gz.gpg --encrypt --recipient $EMAIL $BACKUP_TRG.tar.gz"
+COMMAND="/usr/local/bin/gpg --output $BACKUP_TRG.tar.gz.gpg --encrypt --recipient $EMAIL $BACKUP_TRG.tar.gz"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Copy backup to Dropbox"
-COMMAND="/usr/bin/rclone copy $BACKUP_TRG.tar.gz.gpg $DROPBOX"
+COMMAND="/usr/local/bin/rclone copy $BACKUP_TRG.tar.gz.gpg $DROPBOX"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Purge old Dropbox backups"
-COMMAND="/usr/bin/rclone delete --min-age=$RETENTION $DROPBOX"
+COMMAND="/usr/local/bin/rclone delete --min-age=$RETENTION $DROPBOX"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
