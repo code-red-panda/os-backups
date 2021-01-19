@@ -3,7 +3,7 @@
 # Not working by default MAILTO="jake@coderedpanda.com"
 
 # Backup: Joplin
-#2 * * * * jake PATH=$PATH:/usr/local/bin ; /usr/local/coderedpanda/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
+#2 * * * * jake /usr/local/coderedpanda/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
 
 # Backup: MBP13
 #12 */3 * * * jake /usr/local/coderedpanda/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
