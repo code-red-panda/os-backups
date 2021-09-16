@@ -22,3 +22,9 @@
 
 # Rotate: Logs
 #52 * * * * jake /usr/sbin/logrotate -s /var/log/coderedpanda/logrotate.log /etc/logrotate.d/coderedpanda
+
+###
+
+# Snapshot management for EBS
+#0 7 * * * . $HOME/.bash_profile ; flock -n /tmp/snapshot-create.lock /usr/local/bin/snapshot-create.sh <volume name> Daily >> /var/log/aws/snapshot.log 2>&1
+#0 8 * * * . $HOME/.bash_profile ; flock -n /tmp/snapshot-purge.lock /usr/local/bin/snapshot-purge.sh <volume name> Daily 3 >> /var/log/aws/snapshot.log 2>&1
