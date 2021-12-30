@@ -1,30 +1,46 @@
-# /etc/cron.d/coderedpanda
-
-# Not working by default MAILTO="jake@coderedpanda.com"
-
-# Backup: Joplin
-#2 * * * * jake /usr/local/coderedpanda/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
-
-# Backup: MBP13
-#12 */3 * * * jake /usr/local/coderedpanda/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
-
-# Backup: XPS13
-#12 */3 * * * jake /usr/local/coderedpanda/bin/backup-xps13.sh >> /var/log/coderedpanda/backup-xps13.log 2>&1
-
-# Backup: Dropbox
-#22 */6 * * * jake /usr/local/coderedpanda/bin/backup-dropbox.sh >> /var/log/coderedpanda/backup-dropbox.log 2>&1
-
-# Sync: Alfred Snippets To Linux
-#32 * * * * jake /usr/local/coderedpanda/bin/sync-alfred-snippets.sh >> /var/log/coderedpanda/sync-alfred-snippets.log 2>&1
-
-# Compress: Details Logs
-# can this go away? 42 * * * * jake /usr/bin/gzip /var/log/coderedpanda/backup-*-details.log.*CT >> /var/log/coderedpanda/compress-details.log 2>&1
-
-# Rotate: Logs
-#52 * * * * jake /usr/sbin/logrotate -s /var/log/coderedpanda/logrotate.log /etc/logrotate.d/coderedpanda
-
+###
+### BACKUPS
 ###
 
-# Snapshot management for EBS
+# Joplin
+#2 * * * * jake /usr/local/coderedpanda/bin/backup-joplin.sh >> /var/log/coderedpanda/backup-joplin.log 2>&1
+
+# MBP13
+#12 */3 * * * jake /usr/local/coderedpanda/bin/backup-mbp13.sh >> /var/log/coderedpanda/backup-mbp13.log 2>&1
+
+# XPS13
+#12 */3 * * * jake /usr/local/coderedpanda/bin/backup-xps13.sh >> /var/log/coderedpanda/backup-xps13.log 2>&1
+
+# Dropbox
+#22 */6 * * * jake /usr/local/coderedpanda/bin/backup-dropbox.sh >> /var/log/coderedpanda/backup-dropbox.log 2>&1
+
+
+###
+### SYNC
+###
+
+# Dropbox Alfred -> Local Albert
+#32 * * * * jake /usr/local/coderedpanda/bin/sync-alfred-snippets.sh >> /var/log/coderedpanda/sync-alfred-snippets.log 2>&1
+
+# Local Alfred -> iCloud Alfred
+#* * * * * jake /usr/local/bin/rclone sync $HOME/Alfred $HOME/iCloud/Backups/Alfred
+
+# iCloud Alfred -> Local Alfred
+#* * * * * jake /usr/local/bin/rclone sync $HOME/iCloud/Backups/Alfred $HOME/Alfred
+
+
+###
+### LOGS
+###
+
+# Rotate Logs
+#52 * * * * jake /usr/sbin/logrotate -s /var/log/coderedpanda/logrotate.log /etc/logrotate.d/coderedpanda
+
+
+###
+### EBS SNAPSHOTS
+###
+
+# NEEDS REVIEW
 #0 7 * * * . $HOME/.bash_profile ; flock -n /tmp/snapshot-create.lock /usr/local/bin/snapshot-create.sh <volume name> Daily >> /var/log/aws/snapshot.log 2>&1
 #0 8 * * * . $HOME/.bash_profile ; flock -n /tmp/snapshot-purge.lock /usr/local/bin/snapshot-purge.sh <volume name> Daily 3 >> /var/log/aws/snapshot.log 2>&1
