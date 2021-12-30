@@ -1,4 +1,6 @@
 # os-backups
+
+# Required
 Generate GPG keys for the OS user
 
 Configure rclone for "Dropbox"
@@ -10,12 +12,22 @@ Configure joplin terminal and grant access via Dropbox
 Create the log directory for backup scripts
 ```
 sudo mkdir /var/log/coderedpanda
-sudo chown jake:jake -R /var/log/coderedpanda
+
+# Linux
+sudo chown jake. -R /var/log/coderedpanda
+
+# Mac
+sudo chown jake /var/log/coderedpanda
 ```
 Create the bin directory for backup scripts
 ```
 sudo mkdir -p /usr/local/coderedpanda/bin/
+
+# Linux
 sudo chown jake:jake -R /usr/local/coderedpanda
+
+# Mac
+sudo chown jake /usr/local/coderedpanda
 ```
 Copy the backup scripts into place
 ```
@@ -25,11 +37,11 @@ Copy the crontab into place (then edit as needed)
 ```
 cp crontab /etc/cron.d/coderedpanda
 ```
-Copy the logrotate config into place (then edit as needed)
+Linux - copy the logrotate config into place (then edit as needed)
 ```
 cp logrotate /etc/logrotate.d/coderedpanda
 ```
-Or for mac
+Mac - install and set up logrotate
 ```
 brew install logrotate
 brew services start logrotate
