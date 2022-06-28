@@ -7,7 +7,8 @@ BACKUP_PATH=$HOME/Desktop
 BACKUP_SRC=$HOME/
 BACKUP_TRG=$BACKUP_PATH/$BACKUP_NAME
 BIN=/usr/local/coderedpanda/bin
-DROPBOX=Dropbox:/Backups/$BACKUP
+#DROPBOX=Dropbox:/Backups/$BACKUP
+ICLOUD=$HOME/iCloud/Backups/$BACKUP
 EMAIL=jake@coderedpanda.com
 EXCLUDE=$BACKUP_TRG/exclude-list.txt
 LOG_DIR=/var/log/coderedpanda
@@ -43,8 +44,12 @@ Pictures
 Public
 
 # My custom directories
+Alfred
+Albert
 Dropbox
 git
+iCloud
+Projects
 VirtualBox VMs
 vm
 EOF
@@ -57,13 +62,14 @@ $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Copy SSH configs"
-COMMAND="/usr/bin/scp -r $HOME/.ssh/config $HOME/.ssh/ms_config $HOME/.ssh/config.d $BACKUP_TRG/ssh"
+COMMAND="/usr/bin/scp -r $HOME/.ssh/config $HOME/.ssh/config.d $BACKUP_TRG/ssh"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
 TASK_NAME="Copy .config"
 COMMAND="/usr/bin/scp -r $HOME/.config/ $BACKUP_TRG/config"
+COMMAND="/usr/bin/rsync -avzP --exclude='*.socket' $HOME/.config/ $BACKUP_TRG/config"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
@@ -80,14 +86,14 @@ info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
-TASK_NAME="Copy backup to Dropbox"
-COMMAND="/usr/local/bin/rclone copy $BACKUP_TRG.tar.gz.gpg $DROPBOX"
+TASK_NAME="Copy backup to iCloud"
+COMMAND="/usr/local/bin/rclone move $BACKUP_TRG.tar.gz.gpg $ICLOUD"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
 
-TASK_NAME="Purge old Dropbox backups"
-COMMAND="/usr/local/bin/rclone delete --min-age=$RETENTION $DROPBOX"
+TASK_NAME="Purge old iCloud backups"
+COMMAND="/usr/local/bin/rclone delete --min-age=$RETENTION $ICLOUD"
 info "task"
 $COMMAND >> $LOG_DETAIL 2>&1
 result
