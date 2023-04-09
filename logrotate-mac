@@ -1,0 +1,18 @@
+/var/log/os-backups/backup-*.log {
+    daily
+    rotate 31
+    create 0644 __USER__ staff
+    dateext
+    compress
+    missingok
+    notifempty
+}
+
+/var/log/os-backups/backup-*-details.log.*CT {
+    daily
+    rotate 31
+    create 0644 __USER__ staff
+    compress
+    missingok
+    notifempty
+}

@@ -1,17 +1,16 @@
 #!/bin/bash
 
-BACKUP=mbp13
+BACKUP=mac
 TS=$(date +%Y%m%d-%H%MCT)
 BACKUP_NAME=$BACKUP-$TS
-BACKUP_PATH=$HOME/Desktop
 BACKUP_SRC=$HOME/
-BACKUP_TRG=$BACKUP_PATH/$BACKUP_NAME
-BIN=/usr/local/coderedpanda/bin
+BACKUP_TRG=/tmp/$BACKUP_NAME
+BIN=/usr/local/bin
 #DROPBOX=Dropbox:/Backups/$BACKUP
 ICLOUD=$HOME/iCloud/Backups/$BACKUP
-EMAIL=jake@coderedpanda.com
+EMAIL=setMe@email.com
 EXCLUDE=$BACKUP_TRG/exclude-list.txt
-LOG_DIR=/var/log/coderedpanda
+LOG_DIR=/var/log/os-backups
 LOG_DETAIL=$LOG_DIR/backup-$BACKUP-details.log.$TS
 RETENTION=7d
 
@@ -32,9 +31,10 @@ info "task"
 # Hidden files and directories
 .*
 
-# Mac standard directories
-Applications
+# Mac security disallows this
 Desktop
+
+# Mac standard directories
 Downloads
 iTunes
 Library
@@ -43,15 +43,14 @@ Music
 Pictures
 Public
 
-# My custom directories
+# Custom directories
 Alfred
 Albert
+Bin
 Dropbox
-git
 iCloud
 Projects
 VirtualBox VMs
-vm
 EOF
 result
 
